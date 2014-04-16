@@ -1,0 +1,7 @@
+--require should
+--require ./test/init
+--require co-mocha
+--timeout 60000
+--reporter spec
+--ui bdd
+--recursive
