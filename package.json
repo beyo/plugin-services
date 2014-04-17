@@ -27,10 +27,12 @@
     "primus": "^2.1.5"
   },
   "devDependencies": {
+    "beyo": "0.0.1-20140414",
     "co-mocha": "0.0.2",
     "mocha": "^1.18.2",
     "semicov": "^0.1.1-2",
-    "should": "^3.3.1"
+    "should": "^3.3.1",
+    "ws": "^0.4.31"
   },
   "license": "MIT"
 }
