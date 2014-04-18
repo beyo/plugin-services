@@ -6,6 +6,7 @@ describe('Test Services', function () {
 
   var path = require('path');
   var co = require('co');
+  var fs = require('fs');
   var beyo = require('beyo');
 //  var Primus = require('primus');
   var services = require('../../lib/services');
@@ -18,60 +19,64 @@ describe('Test Services', function () {
     return portNumber++;
   }
 
+  function serverUrl(server) {
+    var addr = services.primus.server.address();
+    return 'http://' + addr.address + ':' + (addr.port || serverPort);
+  }
 
   before(function () {
-    global.window = undefined;   // just ... because
-  });
-
-  beforeEach(function beforeEach() {
-    //server = http.createServer();
-    //primus = new Primus(server);
-
-    //server.listen(port(), done);
-
+    global.window = {}; // needed in client/library.js
   });
 
   it('should load services', function (done) {
-    this.timeout(3000);
+    var clientLibraryPath = path.join(__dirname, 'fixtures', 'library');
+
+    this.timeout(2000);
 
     co(function * () {
+      var serverPort = port();
+
       serverEmitter = yield services(beyo, {
         server: {
           iknowhttpsisbetter: true,  // LOL
-          port: port(),
+          port: serverPort,
           transformer: 'websockets'
         },
-        servicesPath: path.join(__dirname, 'fixtures'),
+        clientLibraryPath: clientLibraryPath,
+        servicesPath: path.join(__dirname, 'fixtures', 'services'),
         testOk: function (emitter) {
           emitter.should.be.an.Object;
+          serviceInitialized = true;
         }
       });
 
-      global.Primus = services.primus.Socket;
+      global.window.Primus = services.primus.Socket;
 
-      client = require('../../client/library');
+      client = require(path.join(clientLibraryPath, 'beyo-services.js'));
 
-      //console.log(client.Services.primus);
+      client.Services.on('foo', function (abc, num123, obj) {
+        arguments.should.have.lengthOf(3);
 
-      client.Services.on('foo', function () {
-        console.log('Received foo event');
-      });
+        abc.should.be.equal('abc');
+        num123.should.be.equal(123);
 
-      yield function (done) {
-        setTimeout(function () {
+        assert.deepEqual(obj, { foo: 'bar' });
 
+        setImmediate(function () {
           services.primus.end();
-
-          done();
-        }, 1000);
-      };
+          services.primus.on('close', function () {
+            setImmediate(done);
+          });
+        });
+      });
+      client.Services.primus.on('open', function () {
+        client.Services.emit('foo', 'abc', 123, { foo: 'bar' });
+      });
     })(function (err) {
-      global.Primus = undefined;
+      global.window.Primus = undefined;
 
-      done(err);
+      if (err) done(err);
     });
   });
-
-
 
 });

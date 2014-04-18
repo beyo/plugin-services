@@ -29,7 +29,7 @@ Configure the plugin from your beyo application configuration
           "server": {
             /* primus server configuration */
           },
-          "clientLibrary": "path/to/public/js/services.js"
+          "clientLibraryPath": "path/to/public/js/lib/"
         }
       }
     }
@@ -46,9 +46,9 @@ function (i.e. `new (options.emitter)(options.emitterOptions)`).
 **NOTE:** the `server` option should declare the configuration passed to the
 instance of Primus.
 
-**NOTE:** the `clientLibrary` value is the file that the plugin should create
-to use on the client side. Normally, this path will point at a static directory
-mapping.
+**NOTE:** the `clientLibraryPath` value is the path where the client libraries
+needs to be copied (or generated). Normally, this path will point at a static
+directory mapping.
 
 
 ### Services (server side)

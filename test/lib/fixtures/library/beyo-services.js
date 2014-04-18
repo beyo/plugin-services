@@ -1,3 +1,10 @@
+
++function (context) {
+  var Primus = context["Primus"];
+  Primus.serverConfig = {
+    url: "http://0.0.0.0:1234"
+  };
+}(window || global);
 +function (name, context, global, definition) {
   if (typeof module !== "undefined" && module.exports) {
     module.exports[name] = context[name] = definition.call(context, global['Primus']);

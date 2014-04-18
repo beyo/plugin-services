@@ -52,21 +52,21 @@ describe('Test Packet', function () {
   it('should create EmitPacket', function () {
     var p;
 
-    p = new packet.EmitPacket('test');
+    p = new packet.EmitPacket(null, 'test');
     p.should.have.ownProperty('type').and.equal('emit');
     p.should.have.ownProperty('event').and.equal('test');
     p.should.have.ownProperty('args').and.eql([]);
-    Object.keys(p).should.have.lengthOf(4);
-    p.should.eql({ _: 'SERVICES', type: 'emit', event: 'test', args: [] });
+    Object.keys(p).should.have.lengthOf(5);
+    p.should.eql({ _: 'SERVICES', type: 'emit', uid: null, event: 'test', args: [] });
 
-    p = new packet.EmitPacket('test', ['foo', 'bar']);
+    p = new packet.EmitPacket('foo', 'test', ['foo', 'bar']);
     p.should.have.ownProperty('type').and.equal('emit');
     p.should.have.ownProperty('event').and.equal('test');
     p.should.have.ownProperty('args').and.be.an.Array.and.eql(['foo', 'bar']);
-    Object.keys(p).should.have.lengthOf(4);
-    p.should.eql({ _: 'SERVICES', type: 'emit', event: 'test', args: ['foo', 'bar'] });
+    Object.keys(p).should.have.lengthOf(5);
+    p.should.eql({ _: 'SERVICES', type: 'emit', uid: 'foo', event: 'test', args: ['foo', 'bar'] });
 
-    packet.EmitPacket('test').should.eql(new packet.EmitPacket('test'));
+    packet.EmitPacket(null, 'test').should.eql(new packet.EmitPacket(null, 'test'));
   });
 
   it('should parse `addListener` packet', function () {
@@ -94,11 +94,11 @@ describe('Test Packet', function () {
 
     p = packet.parse({ _: 'SERVICES', type: 'emit', event: 'test', args: ['foo', 'bar'] });
     p.should.be.instanceof(packet.EmitPacket);
-    p.should.eql({ _: 'SERVICES', type: 'emit', event: 'test', args: ['foo', 'bar'] });
+    p.should.eql({ _: 'SERVICES', type: 'emit', uid: undefined, event: 'test', args: ['foo', 'bar'] });
 
     p = packet.parse({ _: 'SERVICES', type: 'emit', event: 'test', });
     p.should.be.instanceof(packet.EmitPacket);
-    p.should.eql({ _: 'SERVICES', type: 'emit', event: 'test', args: [] });
+    p.should.eql({ _: 'SERVICES', type: 'emit', uid: undefined, event: 'test', args: [] });
   });
 
   it('should fail to parse', function () {
