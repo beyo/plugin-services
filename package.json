@@ -24,7 +24,9 @@
     "co": "^3.0.5",
     "co-fs": "^1.2.0",
     "error-factory": "0.0.8",
-    "primus": "^2.1.5"
+    "primus": "^2.1.5",
+    "semicov": "^0.1.1",
+    "beyo": "latest"
   },
   "devDependencies": {
     "beyo": "0.0.1-20140414",
