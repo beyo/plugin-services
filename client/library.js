@@ -2,7 +2,7 @@
   if (typeof module !== "undefined" && module.exports) {
     module.exports[name] = context[name] = definition.call(context, global['Primus']);
   } else if (typeof define == "function" && define.amd) {
-    define(['Primus'], function reference(Primus) {
+    define(['primus'], function reference(Primus) {
       return context[name] = definition.call(context, Primus);
     });
   }
@@ -21,6 +21,7 @@
     this.emit = emitEvent;
     this.on = addListener;
     this.off = removeListener;
+    this.generateUID = newUID;
   }
 
   Object.defineProperty(Services.prototype, 'primus', {
