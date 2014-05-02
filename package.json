@@ -25,12 +25,12 @@
     "co-fs": "^1.2.0",
     "error-factory": "latest",
     "mkdirp": "^0.4.0",
-    "primus": "^2.2.0"
+    "primus": "^2.2.1"
   },
   "devDependencies": {
     "beyo": "latest",
     "mocha": "^1.18.2",
-    "semicov": "^0.1.1",
+    "semicov": "^0.1.1-2",
     "should": "^3.3.1",
     "ws": "^0.4.31"
   },
