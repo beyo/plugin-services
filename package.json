@@ -1,6 +1,6 @@
 {
   "name": "beyo-plugin-services",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Service plugin for beyo applications using Primus.",
   "author": "Yanick Rochon <yanick.rochon@gmail.com>",
   "keywords": [
@@ -21,10 +21,11 @@
     "url": "https://github.com/beyo/plugin-services/issues"
   },
   "dependencies": {
-    "co": "^3.0.5",
+    "beyo-events": "latest",
+    "co": "^3.0.6",
     "co-fs": "^1.2.0",
     "error-factory": "latest",
-    "mkdirp": "^0.4.0",
+    "mkdirp": "^0.5.0",
     "primus": "^2.2.1"
   },
   "devDependencies": {
