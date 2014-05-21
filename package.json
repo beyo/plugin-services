@@ -1,6 +1,6 @@
 {
   "name": "beyo-plugin-services",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Service plugin for beyo applications using Primus.",
   "author": "Yanick Rochon <yanick.rochon@gmail.com>",
   "keywords": [
