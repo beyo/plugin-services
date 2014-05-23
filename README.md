@@ -26,8 +26,13 @@ Configure the plugin from your beyo application configuration
         "servicesPath": "path/to/services",
         "options": {
           "emitter": 'events:EventEmitter',
+          "emitterOptions": ...
           "server": {
-            /* primus server configuration */
+            ...
+          },
+          "remoteConnection": {
+            "interface": "eth0",
+            "useIPv6": false
           },
           "clientLibraryPath": "path/to/public/js/lib/"
         }
@@ -39,16 +44,22 @@ Configure the plugin from your beyo application configuration
 
 **NOTE:** the `emitter` should be the module and/or class to instanciate when
 emitting or listening to events. The format is `module:Class`, and will be
-processed as `new require('module')['EventEmitter'](options.emitterOptions)`.
+processed as `new require(module)[Class](options.emitterOptions)`.
 An actual function may be passed, which will be invoked as a constructor
-function (i.e. `new (options.emitter)(options.emitterOptions)`).
+function (i.e. `new options.emitter(options.emitterOptions)`).
 
 **NOTE:** the `server` option should declare the configuration passed to the
 instance of Primus.
 
+**NOTE:** the `remoteConnection` option specifies what networking interface
+should be used by the remote connection. Enable `useIPv6` if the IPv6 address should
+be used instead of IPv4. (IPv4 will be used by default). The `interface` value is
+the actual interface listed by `require('os').networkInterfaces()`. If the inteface
+cannot be found, `localhost` is used.
+
 **NOTE:** the `clientLibraryPath` value is the path where the client libraries
-needs to be copied (or generated). Normally, this path will point at a static
-directory mapping.
+needs to be copied when generated. Normally, this path will point at a static
+directory mapping (i.e. `./pub/js/lib/`).
 
 
 ### Services (server side)
@@ -87,16 +98,16 @@ start, and saved as `clientLibrary'. Just include the script in your HTML.
 ```
 
 Then, the static file simply exposes Primus, along with a ready-to-use instance
-called `services`. And it can be used as :
+called `Services`. And it can be used as :
 
 ```javascript
-services.emit('foo.bar');
+Services.emit('foo.bar');
 
-services.on('foo.bar', function () {
+Services.on('foo.bar', function () {
   console.log('foo.bar!');
 });
 
-services.on('foo.bar.complete', function () {
+Services.on('foo.bar.complete', function () {
   console.log('foo.bar.complete');
 });
 ```
